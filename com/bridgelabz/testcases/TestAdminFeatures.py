@@ -12,7 +12,7 @@ from com.bridgelabz.pageObjects.PracticeMentor.PracticeMentorPage import MentorP
 
 @pytest.mark.usefixtures("login")
 class TestAdminFeatures:
-
+    @pytest.mark.sanity
     def test_create_maker_plan(self, login):
         try:
             maker = MakerPlanPage(login)
@@ -22,6 +22,7 @@ class TestAdminFeatures:
             take_screenshot(login, "test_create_maker_plan")
             raise e
 
+    @pytest.mark.sanity
     def test_edit_maker_plan(self, login):
         try:
             maker = MakerPlanPage(login)
@@ -30,6 +31,7 @@ class TestAdminFeatures:
             take_screenshot(login, "test_edit_maker_plan")
             raise e
 
+    @pytest.mark.sanity
     def test_create_ph(self, login):
         try:
             ph = PHPage(login)
@@ -38,6 +40,7 @@ class TestAdminFeatures:
             take_screenshot(login, "test_create_ph")
             raise e
 
+    @pytest.mark.sanity
     def test_edit_ph(self, login):
         try:
             ph = PHPage(login)
@@ -46,6 +49,7 @@ class TestAdminFeatures:
             take_screenshot(login, "test_edit_ph")
             raise e
 
+    @pytest.mark.sanity
     def test_create_mentor(self, login):
         try:
             mentor = MentorPage(login)
@@ -54,6 +58,7 @@ class TestAdminFeatures:
             take_screenshot(login, "test_create_mentor")
             raise e
 
+    @pytest.mark.sanity
     def test_edit_mentor(self, login):
         try:
             mentor = MentorPage(login)
@@ -62,6 +67,7 @@ class TestAdminFeatures:
             take_screenshot(login, "test_edit_mentor")
             raise e
 
+    @pytest.mark.sanity
     def test_view_daily_attendance_report(self, login):
         try:
             reports = DailyReports(login)
@@ -77,6 +83,7 @@ class TestAdminFeatures:
             take_screenshot(login, "test_view_daily_attendance_report")
             raise e
 
+    @pytest.mark.sanity
     def test_view_daily_practice_report(self, login):
         try:
             reports = DailyReports(login)
@@ -91,6 +98,7 @@ class TestAdminFeatures:
             take_screenshot(login, "test_view_daily_practice_report")
             raise e
 
+    @pytest.mark.sanity
     def test_lab_reports(self, login):
         try:
             reports = LabReports(login)
@@ -99,6 +107,7 @@ class TestAdminFeatures:
             take_screenshot(login, "test_lab_reports")
             raise e
 
+    @pytest.mark.sanity
     def test_view_coder_distribution_report(self, login):
         try:
             report = CoderDistributionReport(login)
@@ -110,6 +119,7 @@ class TestAdminFeatures:
             take_screenshot(login, "test_view_coder_distribution_report")
             raise e
 
+    @pytest.mark.sanity
     def test_view_checkin_checkout_report(self, login):
         try:
             check_in_out = CheckInOutReport(login)

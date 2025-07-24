@@ -11,6 +11,7 @@ from com.bridgelabz.testcases.conftest import take_screenshot  # import screensh
 @pytest.mark.usefixtures("login")
 class TestCases:
 
+    @pytest.mark.sanity
     def test_check_download_sample_csv(self, login):
         driver = login
         coe = COELabs(driver)

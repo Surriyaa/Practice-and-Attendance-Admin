@@ -10,6 +10,7 @@ from com.bridgelabz.testcases.conftest import take_screenshot
 @pytest.mark.usefixtures("login")
 class TestMakerModule:
 
+    @pytest.mark.sanity
     def test_create_maker_module(self, login):
         driver = login
         maker = MakerModule(driver)
@@ -41,6 +42,7 @@ class TestMakerModule:
             take_screenshot(driver, "test_create_maker_module")
             raise AssertionError(f"Maker Module creation failed. Reason: {str(e)}")
 
+    @pytest.mark.sanity
     def test_edit_maker_module(self, login):
         driver = login
         maker = MakerModule(driver)

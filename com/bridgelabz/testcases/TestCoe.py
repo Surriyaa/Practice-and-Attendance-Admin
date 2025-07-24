@@ -3,16 +3,17 @@ from com.bridgelabz.pageObjects.COELabs.COELabs import COELabs
 from com.bridgelabz.testcases.conftest import take_screenshot
 
 @pytest.mark.usefixtures("login")
+@pytest.mark.sanity
 class TestCOE:
     # Test Data
-    COE_NAME = "Automation COE-2"
-    COE_DETAILS = "Automation Testing-2"
-    LATITUDE = "19.12"
+    COE_NAME = "Automation COE-3"
+    COE_DETAILS = "Automation Testing-3"
+    LATITUDE = "19.120"
     LONGITUDE = "72.89"
-    DISTANCE = "50"
+    DISTANCE = "500"
     EDITED_DETAILS = "SRM TN Updated Automation"
 
-    @pytest.mark.coe
+    @pytest.mark.sanity
     def test_create_coe(self, login):
         driver = login
         coe = COELabs(driver)
@@ -34,7 +35,7 @@ class TestCOE:
             take_screenshot(driver, "test_create_coe")
             raise AssertionError("COE creation failed. " + str(e))
 
-    @pytest.mark.coe
+    @pytest.mark.sanity
     def test_edit_coe(self, login):
         driver = login
         coe = COELabs(driver)

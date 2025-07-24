@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 @pytest.mark.usefixtures("login")
 class TestSignIn:
 
-    @pytest.mark.signin
+    @pytest.mark.sanity
     def test_signin(self, login):
         driver = login
         expected_title = "BL Practice App"
@@ -21,7 +21,7 @@ class TestSignIn:
             take_screenshot(driver, "test_signin")
             raise AssertionError(f"Title mismatch: Expected '{expected_title}', got '{driver.title}'")
 
-    @pytest.mark.signout
+    @pytest.mark.sanity
     def test_sign_out(self, login):
         driver = login
         signin_page = SignInPage(driver)
