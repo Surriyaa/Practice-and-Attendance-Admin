@@ -6,12 +6,12 @@ from com.bridgelabz.testcases.conftest import take_screenshot
 @pytest.mark.sanity
 class TestCOE:
     # Test Data
-    COE_NAME = "Automation COE-3"
-    COE_DETAILS = "Automation Testing-3"
-    LATITUDE = "19.120"
-    LONGITUDE = "72.89"
-    DISTANCE = "500"
-    EDITED_DETAILS = "SRM TN Updated Automation"
+    COE_NAME = "Automation COE-7"
+    COE_DETAILS = "Automation Testing-7"
+    LATITUDE = "19.135420"
+    LONGITUDE = "72.54894"
+    DISTANCE = "100"
+    EDITED_DETAILS = "SRM TN Updated Automation 002"
 
     @pytest.mark.sanity
     def test_create_coe(self, login):

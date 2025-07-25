@@ -22,7 +22,7 @@ class TestMakerModule:
         maker.select_module_dropdown(value=1)
 
         maker.fill_module_form(
-            topic="Loops and Conditions",
+            topic="Strings and Switch",
             notes="https://notes.link",
             level1="https://level1.link",
             level2="https://level2.link",

@@ -16,7 +16,7 @@ class MakerPlanPage:
     name_input_xpath = "//input[@name='makerPlan']"
     duration_input_xpath = "//input[@name='codingHours']"
     description_input_xpath= "//textarea[@name='description']"
-    save_button_xpath = "//button[normalize-space()='Save']"
+    save_button_xpath = "(//button[normalize-space()='Submit'])[1]"
     edit_icon_xpath = "//*[name()='path' and contains(@d,'M3 17.25V2')]"
     duration_edit_xpath = "//input[@name='codingHours']"
 

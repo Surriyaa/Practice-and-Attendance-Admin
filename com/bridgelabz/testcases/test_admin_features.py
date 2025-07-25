@@ -17,7 +17,7 @@ class TestAdminFeatures:
         try:
             maker = MakerPlanPage(login)
             sleep(5)
-            maker.create_maker_plan("Full Stack Dev", "60", description="This is An Automated Description")
+            maker.create_maker_plan("Full Stack Testing 3", "88", description="This is An Automated Description 01")
         except Exception as e:
             take_screenshot(login, "test_create_maker_plan")
             raise e
@@ -26,7 +26,7 @@ class TestAdminFeatures:
     def test_edit_maker_plan(self, login):
         try:
             maker = MakerPlanPage(login)
-            maker.edit_module_in_plan("P & A Phase 2", "80")
+            maker.edit_module_in_plan("P & A Phase 2", "78")
         except Exception as e:
             take_screenshot(login, "test_edit_maker_plan")
             raise e
@@ -35,7 +35,7 @@ class TestAdminFeatures:
     def test_create_ph(self, login):
         try:
             ph = PHPage(login)
-            ph.create_ph("Surriyaa 2", "surriyaatest1@gmail.com", 6374637402, "P&A Phase 2")
+            ph.create_ph("Surriyaa sanity2", "surriyaatestsanity2@gmail.com", 6374400001, "P&A Phase 2")
         except Exception as e:
             take_screenshot(login, "test_create_ph")
             raise e
@@ -44,7 +44,7 @@ class TestAdminFeatures:
     def test_edit_ph(self, login):
         try:
             ph = PHPage(login)
-            ph.edit_ph_contact("9988000000")
+            ph.edit_ph_contact("9918001191")
         except Exception as e:
             take_screenshot(login, "test_edit_ph")
             raise e
@@ -53,7 +53,7 @@ class TestAdminFeatures:
     def test_create_mentor(self, login):
         try:
             mentor = MentorPage(login)
-            mentor.create_practice_mentor("Surriyaa Test1", "surriy66@bridgelabz.com", "6374674463", "P&A Phase 2")
+            mentor.create_practice_mentor("Surriyaa sanity3", "surriysanity2@bridgelabz.com", "6374670107", "P&A Phase 2")
         except Exception as e:
             take_screenshot(login, "test_create_mentor")
             raise e
@@ -62,7 +62,7 @@ class TestAdminFeatures:
     def test_edit_mentor(self, login):
         try:
             mentor = MentorPage(login)
-            mentor.edit_mentor_contact("9876540000")
+            mentor.edit_mentor_contact("9876522621")
         except Exception as e:
             take_screenshot(login, "test_edit_mentor")
             raise e

@@ -10,7 +10,7 @@ from com.bridgelabz.pageObjects.LoginLogout.SignInPage import SignInPage
 from com.bridgelabz.utilities.read_config import ReadConfig
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture(scope="function")
 def chrome_browser():
     driver = webdriver.Chrome()
     driver.maximize_window()
@@ -20,7 +20,7 @@ def chrome_browser():
     driver.quit()
 
 
-@pytest.fixture(scope="class")
+@pytest.fixture(scope="function")
 def login(chrome_browser):
     driver = chrome_browser
     signin = SignInPage(driver)
