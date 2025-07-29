@@ -1,0 +1,5 @@
+pytest~=8.4.1
+selenium~=4.34.2
+pytest-forked~=1.6.0
+pytest-xdist~=3.8.0
+pytest-html~=4.1.1
