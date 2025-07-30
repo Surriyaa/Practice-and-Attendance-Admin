@@ -1,5 +1,6 @@
+import datetime
 import os
-from datetime import time
+import time
 from time import sleep
 import pytest
 from selenium.webdriver.common.by import By
@@ -16,6 +17,23 @@ from com.bridgelabz.pageObjects.LabReport.LabReport import LabReports
 from com.bridgelabz.pageObjects.MakerPlan.MakerPlanPage import MakerPlanPage
 from com.bridgelabz.pageObjects.PracticeHead.PracticeHead import PHPage
 from com.bridgelabz.pageObjects.PracticeMentor.PracticeMentorPage import MentorPage
+import os
+import time
+from pathlib import Path
+
+def delete_existing_sample_csv(download_dir, file_prefix, file_ext):
+    deleted = False
+    for file in os.listdir(download_dir):
+        file_path = os.path.join(download_dir, file)
+        if file.startswith(file_prefix) and file.endswith(file_ext):
+            try:
+                os.remove(file_path)
+                print(f"Deleted old file: {file_path}")
+                deleted = True
+            except Exception as e:
+                print(f"Could not delete file: {file_path}. Reason: {e}")
+    if not deleted:
+        print("No old sample CSV found to delete.")
 
 @pytest.mark.usefixtures("login")
 class TestAdminFeatures:
@@ -172,28 +190,24 @@ class TestAdminFeatures:
 
     @pytest.mark.sanity
     def test_check_download_sample_lab__csv(self, login):
-
         driver = login
-        practice = LabPractice(login)
+        practice = LabPractice(driver)
 
         download_directory = os.path.expanduser("~/Downloads")
-        expected_file_prefix = "SampleLearnerCSV"
+        expected_file_prefix = "SampleLabCSV"
         file_extension = ".csv"
         wait_timeout = 10
 
-        # Clean existing files
-        for file in os.listdir(download_directory):
-            if file.startswith(expected_file_prefix) and file.endswith(file_extension):
-                os.remove(os.path.join(download_directory, file))
+        # Step 1: Delete existing files
+        delete_existing_sample_csv(download_directory, expected_file_prefix, file_extension)
 
-        # Perform UI actions
+        # Step 2: Perform UI actions
         practice.select_coe("P&A Phase 2")
         practice.click_download_sample_lab_csv()
-        time.sleep(2)
+        sleep(2)
 
-        # Verify toaster message
+        # Step 3: Verify toast
         toast_xpath = "//*[contains(text(),'downloaded successfully')]"
-
         try:
             WebDriverWait(driver, wait_timeout).until(
                 EC.visibility_of_element_located((By.XPATH, toast_xpath))
@@ -203,26 +217,26 @@ class TestAdminFeatures:
             take_screenshot(driver, "test_check_download_sample_csv_toast_fail")
             raise AssertionError("Toast message not found or text mismatch. " + str(e))
 
-        # Check file downloaded
+        # Step 4: Verify file downloaded
         file_downloaded = False
         end_time = time.time() + wait_timeout
+        downloaded_file_path = ""
 
-        try:
-            while time.time() < end_time:
-                for file in os.listdir(download_directory):
-                    if file.startswith(expected_file_prefix) and file.endswith(file_extension):
-                        file_downloaded = True
-                        downloaded_file_path = os.path.join(download_directory, file)
-                        break
-                if file_downloaded:
+        while time.time() < end_time:
+            for file in os.listdir(download_directory):
+                if file.startswith(expected_file_prefix) and file.endswith(file_extension):
+                    file_downloaded = True
+                    downloaded_file_path = os.path.join(download_directory, file)
                     break
-                time.sleep(1)
+            if file_downloaded:
+                break
+            sleep(1)
 
-            assert file_downloaded, "CSV file not downloaded in Downloads folder."
-            print(f"CSV file downloaded successfully.")
-        except Exception as e:
+        if file_downloaded:
+            print(f"CSV file downloaded successfully: {downloaded_file_path}")
+        else:
             take_screenshot(driver, "test_check_download_sample_csv_file_fail")
-            raise AssertionError("CSV file download verification failed. " + str(e))
+            raise AssertionError("CSV file not downloaded in Downloads folder.")
 
     @pytest.mark.sanity
     def test_check_download_learner_data_csv(self, login):
@@ -230,7 +244,7 @@ class TestAdminFeatures:
         practice = LabPractice(driver)
 
         download_directory = os.path.expanduser("~/Downloads")
-        expected_file_prefix = "LearnersData"
+        expected_file_prefix = "LabData"
         file_extension = ".csv"
         wait_timeout = 10
 
@@ -242,7 +256,7 @@ class TestAdminFeatures:
         # Perform UI actions
         practice.select_coe("P&A Phase 2")
         practice.click_download_lab_data_csv()
-        time.sleep(2)
+        sleep(2)
 
         # Verify toaster message
         toast_xpath = "//*[contains(text(),'downloaded successfully')]"
@@ -269,7 +283,7 @@ class TestAdminFeatures:
                         break
                 if file_downloaded:
                     break
-                time.sleep(1)
+                sleep(1)
 
             assert file_downloaded, "CSV file not downloaded in Downloads folder."
             print(f"CSV file downloaded successfully.")
@@ -282,7 +296,7 @@ class TestAdminFeatures:
         driver = login
         practice = LabPractice(driver)
         # Ensure file path is correct
-        file_path = r"C:\Users\ASUS\Downloads\SampleLearnerCSV.csv"  # <-- FIXED
+        file_path = r"C:\Users\ASUS\Downloads\SampleLabCSV.csv"  # <-- FIXED
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"CSV file not found at: {file_path}")
 
@@ -299,3 +313,23 @@ class TestAdminFeatures:
         except Exception as e:
             take_screenshot(driver, "upload_csv_file")
             raise AssertionError("Toast message not found or mismatch. " + str(e))
+
+    @pytest.mark.regular
+    def test_disable_lab(self, login):
+        driver = login
+        practice = LabPractice(driver)
+        practice.select_coe("P&A Phase 2")
+        practice.delete_lab()
+        sleep(1)
+
+        # Verify toaster message
+        toast_xpath = "//*[contains(text(),'deactivated successfully')]"
+
+        try:
+            WebDriverWait(driver, 10).until(
+                EC.visibility_of_element_located((By.XPATH, toast_xpath))
+            )
+            print("Toast message verified: File deactivated successfully.")
+        except Exception as e:
+            take_screenshot(driver, "test_delete_lab_toast_fail")
+            raise AssertionError("Toast message not found or text mismatch. " + str(e))

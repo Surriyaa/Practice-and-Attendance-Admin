@@ -12,7 +12,7 @@ class LabPractice:
         self.wait = WebDriverWait(driver, 10)
 
     lab_practice_tab_xpath="//span[normalize-space()='Lab Practice']"
-
+    submit_csv_btn_xpath = "(//button[contains(text(),'🚀 Submit')])[1]"
     create_lab_button_xpath = "(//button[normalize-space()='Create lab'])[1]"
     coe_dropdown_xpath ="/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]"
     coe_select_xpath="//div[@id='mui-component-select-COE']"
@@ -29,6 +29,9 @@ class LabPractice:
     download_sample_csv_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/div[1]/div[1]/button[1]"
     upload_csv_btn_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/div[1]/div[3]/button[1]"
     download_lab_data_csv_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/div[1]/div[2]/button[1]"
+    disable_lab_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/div[2]/table[1]/tbody[1]/tr[1]/td[7]/button[2]"
+    disable_confirm_xpath = "(//button[normalize-space()='Yes, Disable'])[1]"
+    file_input_xpath = "//input[@type='file' and @accept='.csv']"
 
     def select_combobox_option(self, combobox_xpath, option_text):
         WebDriverWait(self.driver, 10).until(
@@ -105,6 +108,11 @@ class LabPractice:
     def click_edit_newbuild_button(self):
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, self.edit_button_newbuild_xpath))).click()
 
+    def delete_lab(self):
+        self.driver.find_element(By.XPATH, self.disable_lab_xpath).click()
+        self.driver.find_element(By.XPATH, self.disable_confirm_xpath).click()
+        print("lab deleted successfully.")
+
     def click_download_sample_lab_csv(self):
             """Wait for the Download Sample CSV button and click."""
             download_button = self.wait.until(EC.element_to_be_clickable((By.XPATH, self.download_sample_csv_xpath)))
@@ -139,14 +147,6 @@ class LabPractice:
         upload_btn = self.wait.until(EC.element_to_be_clickable((By.XPATH, self.upload_csv_btn_xpath)))
         upload_btn.click()
 
-        # Select group name from dropdown
-
-        WebDriverWait(self.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, self.group_dropdown_xpath))).send_keys(
-            "TestQA")
-        sleep(1)
-        action = ActionChains(self.driver)
-        action.send_keys(Keys.ARROW_DOWN).send_keys(Keys.ENTER).perform()
 
         # Upload the CSV file
         file_input = self.wait.until(EC.presence_of_element_located((By.XPATH, self.file_input_xpath)))
