@@ -56,6 +56,23 @@ class TestCOE:
             take_screenshot(driver, "test_edit_coe")
             raise AssertionError("COE edit failed. " + str(e))
 
+    @pytest.mark.regular
+    def test_disable_coe(self, login):
+        driver = login
+        coe = COELabs(driver)
+
+        coe.click_disable_button()
+
+        try:
+            toast_xpath = "//*[contains(text(),'disabled successfully')]"
+            WebDriverWait(driver, 10).until(
+                EC.visibility_of_element_located((By.XPATH, toast_xpath))
+            )
+            print("COE disabled Successfully.")
+        except Exception as e:
+            take_screenshot(driver, "test_disable_coe")
+            raise AssertionError(f"COE disabling failed. Reason: {str(e)}")
+
     @pytest.mark.sanity
     def test_check_download_sample_csv(self, login):
         driver = login

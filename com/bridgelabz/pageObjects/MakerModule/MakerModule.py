@@ -29,6 +29,7 @@ class MakerModule:
     level2_questions_add_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/table[1]/tbody[1]/tr[3]/td[4]/span[1]"
     level3_questions_add_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/table[1]/tbody[1]/tr[3]/td[5]/span[1]"
     input_frame_xpath = "//div[@role='textbox']"
+    disable_button_xpath="/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/table[1]/tbody[1]/tr[6]/td[6]/button[2]"
 
     # Actions
     def click_maker_module(self):
@@ -76,6 +77,13 @@ class MakerModule:
             EC.element_to_be_clickable((By.XPATH, self.edit_icon_xpath))
         ).click()
         self.logger.debug("Clicked Edit Module icon.")
+
+    def click_disable_button(self):
+        self.logger.debug("Clicking Disable button.")
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.disable_button_xpath))
+        ).click()
+        self.logger.debug("Clicked Disable button.")
 
     def add_question(self, level_xpath: str, question_text: str):
         self.logger.debug("Adding question to level with xpath: %s", level_xpath)

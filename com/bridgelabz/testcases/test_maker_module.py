@@ -68,6 +68,23 @@ class TestMakerModule:
         except Exception as e:
             take_screenshot(driver, "test_edit_maker_module")
             raise AssertionError(f"Maker Module editing failed. Reason: {str(e)}")
+    @pytest.mark.regular
+    def test_disable_maker_module(self, login):
+        driver = login
+        maker = MakerModule(driver)
+        sleep(5)
+        maker.click_maker_module()
+        maker.click_disable_button()
+
+        try:
+            toast_xpath = "//*[contains(text(),'disabled successfully')]"
+            WebDriverWait(driver, 10).until(
+                EC.visibility_of_element_located((By.XPATH, toast_xpath))
+            )
+            print("Maker Module disabled Successfully.")
+        except Exception as e:
+            take_screenshot(driver, "test_disable_maker_module")
+            raise AssertionError(f"Maker Module disabling failed. Reason: {str(e)}")
 
     # Load Excel questions
     excel_path = "C:/Users/ASUS/PycharmProjects/Practice-Attendance-Admin/com/bridgelabz/test_data/questions.xlsx"

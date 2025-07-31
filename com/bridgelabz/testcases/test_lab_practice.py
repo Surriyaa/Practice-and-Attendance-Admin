@@ -182,7 +182,7 @@ class TestLabPractice:
             take_screenshot(driver, "upload_csv_file")
             raise AssertionError("Toast message not found or mismatch. " + str(e))
 
-    @pytest.mark.sanity
+    @pytest.mark.regular
     def test_disable_lab(self, login):
         driver = login
         practice = LabPractice(driver)

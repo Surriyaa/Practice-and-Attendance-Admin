@@ -31,6 +31,9 @@ class COELabs:
     group_dropdown_xpath = "/html[1]/body[1]/div[4]/div[3]/div[1]/div[1]/div[1]/div[1]/input[1]"
     file_input_xpath = "//input[@type='file' and @accept='.csv']"
     submit_csv_btn_xpath = "(//button[normalize-space()='Submit'])[1]"
+    coe_next_page_button_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[3]/button[2]"
+    coe_disable_button_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/table[1]/tbody[1]/tr[4]/td[6]/button[2]"
+    #the above xpath is for the disable button of the 'sample COE' COE
 
     def click_create_coe_button(self):
         self.logger.info("Clicking CREATE COE button.")
@@ -70,6 +73,15 @@ class COELabs:
         edit_button = self.wait.until(EC.element_to_be_clickable((By.XPATH, self.edit_button_xpath)))
         edit_button.click()
         self.logger.info("Edit button clicked.")
+
+    def click_disable_button(self):
+        self.logger.info("Clicking Next button.")
+        next_button = self.wait.until(EC.element_to_be_clickable((By.XPATH, self.coe_next_page_button_xpath)))
+        next_button.click()
+        self.logger.info("Clicking Disable button.")
+        disable_button = self.wait.until(EC.element_to_be_clickable((By.XPATH, self.coe_disable_button_xpath)))
+        disable_button.click()
+        self.logger.info("Disable button clicked.")
 
     def click_learner_button(self):
         self.logger.info("Clicking Learner count button.")
