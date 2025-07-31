@@ -6,7 +6,7 @@ class Logger:
     @staticmethod
     def get_logger(name):
         # Create logs directory if it doesn't exist
-        log_dir = "logs"
+        log_dir = "C:/Users/ASUS/PycharmProjects/Practice-Attendance-Admin/logs"
         os.makedirs(log_dir, exist_ok=True)
 
         # Generate log file name with timestamp

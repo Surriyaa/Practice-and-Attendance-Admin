@@ -1,27 +1,24 @@
-import csv
-import logging
+import openpyxl
 
-logger = logging.getLogger(__name__)
+# Setup logger
+from com.bridgelabz.utilities.logger import Logger
+logger = Logger.get_logger("QuestionLoader")
 
-def load_questions_from_csv(path):
-    logger.debug(f"Opening CSV file at path: {path}")
-    with open(path, newline='') as csvfile:
-        logger.debug("CSV file opened successfully")
-        reader = csv.DictReader(csvfile)
-        logger.debug("Initialized csv.DictReader")
-        data = {"level1": [], "level2": [], "level3": []}
-        logger.debug(f"Initialized data dictionary: {data}")
-        for row in reader:
-            logger.debug(f"Read row: {row}")
-            if row["level1"]:
-                logger.debug(f"Appending to level1: {row['level1']}")
-                data["level1"].append(row["level1"])
-            if row["level2"]:
-                logger.debug(f"Appending to level2: {row['level2']}")
-                data["level2"].append(row["level2"])
-            if row["level3"]:
-                logger.debug(f"Appending to level3: {row['level3']}")
-                data["level3"].append(row["level3"])
-        logger.debug(f"Final data collected: {data}")
-    logger.debug("Returning data")
+def load_questions_from_excel(file_path):
+    logger.info(f"Loading Excel file: {file_path}")
+    workbook = openpyxl.load_workbook(file_path)
+    data = {}
+
+    for sheet in workbook.sheetnames:
+        logger.info(f"Reading sheet: {sheet}")
+        worksheet = workbook[sheet]
+        questions = []
+        for row in worksheet.iter_rows(min_row=2, max_col=1, values_only=True):
+            question = row[0]
+            if question:
+                logger.debug(f"Found question in {sheet}: {question}")
+                questions.append(question)
+        data[sheet.lower()] = questions  # e.g., "Level1" → "level1"
+
+    logger.info("Finished loading all levels")
     return data

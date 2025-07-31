@@ -3,7 +3,6 @@ import pytest
 from com.bridgelabz.pageObjects.LabReport.LabReport import LabReports
 from com.bridgelabz.testcases.conftest import take_screenshot
 
-
 @pytest.mark.usefixtures("login")
 class TestLabReports:
     @pytest.mark.sanity

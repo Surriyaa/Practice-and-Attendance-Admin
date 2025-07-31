@@ -23,10 +23,10 @@ class TestMakerModule:
 
         maker.fill_module_form(
             topic="Loops and Conditions",
-            notes="https://notes.link",
-            level1="https://level1.link",
-            level2="https://level2.link",
-            level3="https://level3.link"
+            notes="https://www.w3schools.com/java/java_while_loop.asp",
+            level1="https://www.w3schools.com/java/java_while_loop_do.asp",
+            level2="https://www.w3schools.com/java/java_for_loop.asp",
+            level3="https://www.w3schools.com/java/java_while_loop_reallife.asp"
         )
 
         maker.click_submit()
@@ -70,7 +70,7 @@ class TestMakerModule:
             raise AssertionError(f"Maker Module editing failed. Reason: {str(e)}")
 
     # Load Excel questions
-    excel_path = "test_data/questions.xlsx"
+    excel_path = "C:/Users/ASUS/PycharmProjects/Practice-Attendance-Admin/com/bridgelabz/test_data/questions.xlsx"
     question_data = load_questions_from_excel(excel_path)
 
     @pytest.mark.parametrize("question", question_data["level1"])

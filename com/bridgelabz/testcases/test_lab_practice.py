@@ -159,7 +159,7 @@ class TestLabPractice:
             take_screenshot(driver, "test_check_download_sample_csv_file_fail")
             raise AssertionError("CSV file download verification failed. " + str(e))
 
-    @pytest.mark.csv
+    @pytest.mark.sanity
     def test_upload_csv_file(self, login):
         driver = login
         practice = LabPractice(driver)
@@ -182,7 +182,7 @@ class TestLabPractice:
             take_screenshot(driver, "upload_csv_file")
             raise AssertionError("Toast message not found or mismatch. " + str(e))
 
-    @pytest.mark.regular
+    @pytest.mark.sanity
     def test_disable_lab(self, login):
         driver = login
         practice = LabPractice(driver)
