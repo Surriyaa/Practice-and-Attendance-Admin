@@ -21,7 +21,7 @@ class SignInPage:
 
     def open_page(self, url):
         """Open the given URL."""
-        self.logger.info(f"Opening URL: {url}")
+        self.logger.info(f"Opening URL")
         self.driver.get(url)
 
     def handle_wait(self, driver=None):
@@ -39,7 +39,7 @@ class SignInPage:
 
     def enter_email(self, email):
         """Enter email in Google sign-in popup."""
-        self.logger.info(f"Entering email: {email}")
+        self.logger.info(f"Entering email as username")
         email_input = WebDriverWait(self.driver, 15).until(
             EC.element_to_be_clickable((By.XPATH, self.email_xpath))
         )

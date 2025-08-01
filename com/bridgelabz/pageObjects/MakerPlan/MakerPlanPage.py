@@ -17,7 +17,7 @@ class MakerPlanPage:
     name_input_xpath = "//input[@name='makerPlan']"
     duration_input_xpath = "//input[@name='codingHours']"
     description_input_xpath= "//textarea[@name='description']"
-    save_button_xpath = "(//button[normalize-space()='Save'])[1]"
+    submit_button_xpath = "(//button[normalize-space()='Submit'])[1]"
     edit_icon_xpath = "//*[name()='path' and contains(@d,'M3 17.25V2')]"
     duration_edit_xpath = "//input[@name='codingHours']"
     disable_button_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/table[1]/tbody[1]/tr[1]/td[4]/button[2]"
@@ -46,10 +46,10 @@ class MakerPlanPage:
         self.logger.info(f"Entering description: {description}.")
         self.driver.find_element(By.XPATH, self.description_input_xpath).send_keys(description)
 
-    def click_save_button(self):
+    def click_submit_button(self):
         sleep(3)
         self.logger.info("Clicking the Submit button to save the Maker Plan.")
-        self.driver.find_element(By.XPATH, self.save_button_xpath).click()
+        self.driver.find_element(By.XPATH, self.submit_button_xpath).click()
 
     def open_maker_plan_dropdown(self):
         sleep(2)
@@ -70,7 +70,7 @@ class MakerPlanPage:
         wait = WebDriverWait(self.driver, 10)
         wait.until(EC.element_to_be_clickable((By.XPATH, self.edit_icon_xpath))).click()
 
-    def click_disable_button(self):
+    def click_disable_maker_module_button(self):
         self.logger.info("Clicking the Disable button.")
         wait = WebDriverWait(self.driver, 10)
         wait.until(EC.element_to_be_clickable((By.XPATH, self.disable_button_xpath))).click()
@@ -91,4 +91,4 @@ class MakerPlanPage:
     def save_changes(self):
         self.logger.info("Clicking the Submit button to save changes.")
         wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.element_to_be_clickable((By.XPATH, self.save_button_xpath))).click()
+        wait.until(EC.element_to_be_clickable((By.XPATH, self.submit_button_xpath))).click()

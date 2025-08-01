@@ -16,7 +16,7 @@ class TestMakerPlan:
             maker.enter_maker_plan_name("Full Stack Testing 5")
             maker.enter_duration("58")
             maker.enter_description("This is An Automated Description 01")
-            maker.click_save_button()
+            maker.click_submit_button()
         except Exception as e:
             take_screenshot(login, "test_create_maker_plan")
             raise e
@@ -44,7 +44,7 @@ class TestMakerPlan:
             maker.click_maker_plan_tab()
             maker.open_maker_plan_dropdown()
             maker.select_maker_plan("Full Stack Testing 1")
-            maker.click_disable_button()
+            maker.click_disable_maker_module_button()
         except Exception as e:
             take_screenshot(login, "test_disable_maker_plan")
             raise e

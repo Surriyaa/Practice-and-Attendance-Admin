@@ -164,7 +164,7 @@ class TestLabPractice:
         driver = login
         practice = LabPractice(driver)
         # Ensure file path is correct
-        file_path = r"C:\Users\ASUS\Downloads\SampleLabCSV.csv"  # <-- FIXED
+        file_path = r"C:/Users/ASUS/Downloads/CSVFiles/SampleLabCSV.csv"  # <-- FIXED
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"CSV file not found at: {file_path}")
 

@@ -179,13 +179,13 @@ class TestCOE:
             take_screenshot(driver, "test_check_download_learner_data_csv_file_fail")
             raise AssertionError("CSV file download verification failed. " + str(e))
 
-    @pytest.mark.csv
+    @pytest.mark.sanity
     def test_upload_csv_file(self, login):
         driver = login
         coe = COELabs(driver)
 
         # Ensure file path is correct
-        file_path = r"C:\Users\ASUS\Downloads\SampleLearnerCSV.csv"  # <-- FIXED
+        file_path = r"C:\Users\ASUS\Downloads\CSVFiles\SampleLearnerCSV.csv"  # <-- FIXED
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"CSV file not found at: {file_path}")
 

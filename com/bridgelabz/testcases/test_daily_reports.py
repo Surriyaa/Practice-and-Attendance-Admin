@@ -29,8 +29,8 @@ class TestDailyReports:
             reports.view_daily_practice_report(
                 coe="P&A Phase 2",
                 lab_type="Fellowship",
-                maker_plan="java programming",
-                maker_module="CodInClub @Java - Core Programming",
+                maker_plan="QA",
+                maker_module="QA Automation",
                 lab="Lab 1"
             )
         except Exception as e:
