@@ -5,7 +5,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from com.bridgelabz.pageObjects.LoginLogout.SignInPage import SignInPage
 from com.bridgelabz.utilities.read_config import ReadConfig
 from com.bridgelabz.utilities.logger import Logger
@@ -14,16 +15,29 @@ logger = Logger.get_logger("conftest")
 
 @pytest.fixture(scope="function")
 def chrome_browser():
-    logger.info("Initializing Chrome WebDriver.")
-    driver = webdriver.Chrome()
+    logger.info("Initializing Chrome WebDriver with suppressed logs.")
+
+    # Set Chrome options to suppress unnecessary logs
+    options = Options()
+    options.add_argument("--log-level=3")  # Only fatal errors
+    options.add_experimental_option("excludeSwitches", ["enable-logging"])  # Remove DevTools ws log
+
+    # Initialize driver
+    driver = webdriver.Chrome(service=Service(), options=options)
+
     logger.info("Maximizing browser window.")
     driver.maximize_window()
+
     logger.info("Setting implicit wait to 10 seconds.")
     driver.implicitly_wait(10)
+
+    # Read URL from config
     url = ReadConfig.get_url()
     logger.info(f"Navigating to URL: {url}")
     driver.get(url)
+
     yield driver
+
     logger.info("Quitting Chrome WebDriver.")
     driver.quit()
 

@@ -39,7 +39,7 @@ class DailyReports:
             EC.element_to_be_clickable((By.XPATH, combobox_xpath))
         ).click()
         self.logger.info(f"Clicked combobox: {combobox_xpath}")
-        sleep(1)
+        sleep(0.5)
         option_xpath = f"//li[normalize-space()='{option_text}']"
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, option_xpath))
@@ -52,6 +52,7 @@ class DailyReports:
         )
         coe.send_keys(Keys.TAB + Keys.ENTER)
         option_xpath = f"//li[normalize-space()='{option_text}']"
+        sleep(0.5)
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, option_xpath))
         ).click()
@@ -80,10 +81,8 @@ class DailyReports:
         self.logger.info("Clicked on View Daily Attendance Report button")
 
         self.select_combobox_option(self.coe_dropdown_xpath, coe)
-        sleep(1)
 
         self.select_combobox_option(self.lab_type_dropdown_xpath, lab_type)
-        sleep(2)
 
         input_xpath = self.attendance_name_dropdown_xpath
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, input_xpath))).send_keys(
@@ -94,17 +93,15 @@ class DailyReports:
 
         sleep(1)
         self.select_combobox_option(self.session_time_dropdown_xpath, session)
-        sleep(2)
 
         self.set_date_js(self.from_date_xpath, from_date)
-        sleep(3)
         self.set_date_js(self.to_date_xpath, to_date)
 
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, self.view_button_xpath))
         ).click()
         self.logger.info("Clicked on View button for Attendance Report")
-        sleep(2)
+        sleep(1)
 
         assert "Total Strength" in self.driver.page_source, "Total Strength column is missing in Daily Attendance Report"
         self.logger.info("Total Strength column is present in Daily Attendance Report — Validation Passed")
@@ -131,7 +128,7 @@ class DailyReports:
         view_button = wait.until(EC.element_to_be_clickable((By.XPATH, self.view_practice_button_xpath)))
         self.driver.execute_script("arguments[0].click();", view_button)
         self.logger.info("Clicked on View button for Daily Practice Report")
-        sleep(2)
+        sleep(1)
 
         if "Lab Strength" in self.driver.page_source:
             self.logger.info("Lab Strength column is present in Daily Practice Report — Validation Passed")

@@ -21,7 +21,7 @@ class CoderDistributionReport:
             EC.element_to_be_clickable((By.XPATH, dropdown_xpath))
         )
         dropdown.click()
-        sleep(1)
+        sleep(0.5)
         option_xpath = f"//li[normalize-space()='{value}']"
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, option_xpath))
@@ -44,7 +44,7 @@ class CoderDistributionReport:
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, self.view_button_xpath))
         ).click()
-        sleep(2)
+        sleep(1)
 
         # Validation
         if "#Fast Coder" in self.driver.page_source:

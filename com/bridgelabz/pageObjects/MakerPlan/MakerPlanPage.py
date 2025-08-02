@@ -47,18 +47,18 @@ class MakerPlanPage:
         self.driver.find_element(By.XPATH, self.description_input_xpath).send_keys(description)
 
     def click_submit_button(self):
-        sleep(3)
+        sleep(1)
         self.logger.info("Clicking the Submit button to save the Maker Plan.")
         self.driver.find_element(By.XPATH, self.submit_button_xpath).click()
 
     def open_maker_plan_dropdown(self):
-        sleep(2)
+        sleep(1)
         self.logger.info("Opening the Maker Plan dropdown.")
         wait = WebDriverWait(self.driver, 10)
         wait.until(EC.element_to_be_clickable((By.XPATH, self.maker_plan_dropdown_xpath))).send_keys(Keys.ENTER)
 
     def select_maker_plan(self, maker_plan_name):
-        sleep(2)
+        sleep(1)
         self.logger.info(f"Selecting Maker Plan: {maker_plan_name}.")
         option_xpath = f"//li[normalize-space()='{maker_plan_name}']"
         wait = WebDriverWait(self.driver, 10)
@@ -80,11 +80,11 @@ class MakerPlanPage:
         wait = WebDriverWait(self.driver, 10)
         duration_field = wait.until(EC.presence_of_element_located((By.XPATH, self.duration_edit_xpath)))
 
-        sleep(2)
+        sleep(1)
         self.logger.info("Clearing the current duration value.")
         ActionChains(self.driver).click(duration_field).key_down(Keys.CONTROL).send_keys("a").key_up(Keys.CONTROL).send_keys(Keys.DELETE).perform()
 
-        sleep(2)
+        sleep(1)
         self.logger.info(f"Entering the new duration: {new_duration}.")
         duration_field.send_keys(new_duration)
 

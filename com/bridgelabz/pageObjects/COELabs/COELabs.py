@@ -64,7 +64,9 @@ class COELabs:
     def edit_details(self, new_details):
         self.logger.info(f"Editing COE details to: {new_details}")
         details_box = self.driver.find_element(By.NAME, self.COE_details_name)
-        details_box.clear()
+        actions = ActionChains(self.driver)
+        actions.click(details_box)
+        actions.key_down(Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).send_keys(Keys.DELETE).perform()
         details_box.send_keys(new_details)
         self.logger.info("COE details edited successfully.")
 

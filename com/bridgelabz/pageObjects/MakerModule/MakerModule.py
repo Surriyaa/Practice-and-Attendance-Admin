@@ -23,6 +23,7 @@ class MakerModule:
     level2_input_xpath = "//input[@name='level2']"
     level3_input_xpath = "//input[@name='level3']"
     submit_button_xpath = "//button[normalize-space()='Submit']"
+    save_button_xpath = "//button[normalize-space()='Save']"
     edit_icon_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/table[1]/tbody[1]/tr[2]/td[6]/button[1]/*[name()='svg'][1]"
     add_questions_button_xpath = "/html[1]/body[1]/div[3]/div[3]/button[1]/*[name()='svg'][1]"
     level1_questions_add_xpath = "//tbody/tr[3]/td[3]/span[1]"
@@ -68,6 +69,12 @@ class MakerModule:
         self.logger.debug("Clicking Submit button.")
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, self.submit_button_xpath))
+        ).click()
+        self.logger.debug("Clicked Submit button.")
+    def click_save(self):
+        self.logger.debug("Clicking Submit button.")
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.save_button_xpath))
         ).click()
         self.logger.debug("Clicked Submit button.")
 

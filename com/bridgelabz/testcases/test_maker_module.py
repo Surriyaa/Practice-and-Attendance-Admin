@@ -1,5 +1,6 @@
 from time import sleep
 import pytest
+from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -22,7 +23,7 @@ class TestMakerModule:
         maker.select_module_dropdown(value=1)
 
         maker.fill_module_form(
-            topic="Loops and Conditions",
+            topic="Loops and Condition from W3Schools",
             notes="https://www.w3schools.com/java/java_while_loop.asp",
             level1="https://www.w3schools.com/java/java_while_loop_do.asp",
             level2="https://www.w3schools.com/java/java_for_loop.asp",
@@ -54,8 +55,10 @@ class TestMakerModule:
             topic_field = WebDriverWait(driver, 10).until(
                 EC.element_to_be_clickable((By.XPATH, maker.topic_input_xpath))
             )
-            topic_field.clear()
-            topic_field.send_keys("Updated Topic")
+            actions = ActionChains(driver)
+            actions.click(topic_field)
+            actions.key_down(Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).send_keys(Keys.DELETE).perform()
+            topic_field.send_keys("Updated Topic New")
 
             maker.click_submit()
             sleep(2)

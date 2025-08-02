@@ -4,6 +4,8 @@ from selenium.webdriver import Keys, ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC, wait
+
+from com.bridgelabz.testcases.conftest import take_screenshot
 from com.bridgelabz.utilities.logger import Logger
 
 class PHPage:
@@ -21,7 +23,8 @@ class PHPage:
     create_button_xpath = "(//button[normalize-space()='Create'])[1]"
     edit_icon_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/table[1]/tbody[1]/tr[2]/td[5]/button[1]"
     update_button_xpath = "(//button[normalize-space()='Update'])[1]"
-    disable_button_xpath="/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/table[1]/tbody[1]/tr[3]/td[5]/button[2]"
+    disable_button_xpath="/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/table[1]/tbody[1]/tr[6]/td[5]/button[2]"
+
 
     def click_ph_tab(self):
         self.logger.info("Initializing WebDriverWait with 20 seconds")
@@ -71,7 +74,7 @@ class PHPage:
         self.logger.info("Clicking Create button")
         self.driver.find_element(By.XPATH, self.create_button_xpath).click()
         self.logger.info("Sleeping for 4 seconds after Create")
-        sleep(4)
+        sleep(1)
 
     def verify_email(self, email):
         self.logger.info(f"Verifying if email '{email}' is present in page source")
@@ -98,7 +101,7 @@ class PHPage:
         self.logger.info(f"Entering new mobile: {mobile}")
         contact_field.send_keys(mobile)
         self.logger.info("Sleeping for 3 seconds after entering mobile")
-        sleep(3)
+        sleep(1)
 
     def click_update_button(self):
         self.logger.info("Clicking Update button")
@@ -111,3 +114,13 @@ class PHPage:
         wait = WebDriverWait(self.driver, 20)
         self.logger.info("Waiting for Disable button to be clickable")
         self.driver.find_element(By.XPATH, self.disable_button_xpath).click()
+        # Verify success toast
+        toast_xpath = "//*[contains(text(),'disabled successfully')]"
+        try:
+            WebDriverWait(self.driver, 15).until(
+                EC.visibility_of_element_located((By.XPATH, toast_xpath))
+            )
+            print("Toast message verified: File upload successfully.")
+        except Exception as e:
+            take_screenshot(self.driver, "upload_csv_file")
+            raise AssertionError("Toast message not found or mismatch. " + str(e))

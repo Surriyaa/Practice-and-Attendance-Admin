@@ -35,9 +35,9 @@ class TestLabPractice:
             practice.select_coe("P&A Phase 2")
             practice.click_create_lab_button()
             practice.create_lab("P&A Phase 2",
-                                "Automation Testing",
+                                "Automation Testing-1",
                                 "10:00AM",
-                                "05:00PM",
+                                "05:30PM",
                                 "surriyaa.pp@bridgelabz.com",
                                 "surriysanity2@bridgelabz.com",
                                 "Fellowship")
@@ -51,7 +51,7 @@ class TestLabPractice:
             practice = LabPractice(login)
             practice.select_coe("P&A Phase 2")
             practice.click_edit_newbuild_button()
-            practice.edit_details("Edited Lab Name")
+            practice.edit_details("Edited Lab Name-1")
         except Exception as e:
             take_screenshot(login, "test_edit_lab_practice")
             raise e

@@ -24,7 +24,7 @@ class CheckInOutReport:
     def select_combobox_option(self, combobox_xpath, option_text):
         self.logger.info(f"Selecting option '{option_text}' for dropdown with xpath: {combobox_xpath}")
         self.wait.until(EC.element_to_be_clickable((By.XPATH, combobox_xpath))).click()
-        sleep(1)
+        sleep(0.5)
         option_xpath = f"//li[normalize-space()='{option_text}']"
         self.wait.until(EC.element_to_be_clickable((By.XPATH, option_xpath))).click()
         self.logger.info(f"Option '{option_text}' selected successfully.")
@@ -56,15 +56,13 @@ class CheckInOutReport:
 
         self.select_combobox_option(self.session_time_xpath, session_time)
 
-        sleep(2)
         self.set_date_js(self.from_date_xpath, from_date)
-        sleep(2)
         self.set_date_js(self.to_date_xpath, to_date)
 
         self.logger.info("Clicking the VIEW button.")
         self.wait.until(EC.element_to_be_clickable((By.XPATH, self.view_button_xpath))).click()
 
-        sleep(2)
+        sleep(1)
         if "#CheckIn Count" in self.driver.page_source:
             self.logger.info("CheckIn and CheckOut report validated successfully. '#CheckIn Count' column found.")
         else:
