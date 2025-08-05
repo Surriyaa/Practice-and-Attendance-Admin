@@ -34,12 +34,14 @@ class TestLabPractice:
             practice = LabPractice(login)
             practice.select_coe("P&A Phase 2")
             practice.click_create_lab_button()
+            lab_name = f"RandomLab{int(time.time())}"
             practice.create_lab("P&A Phase 2",
-                                "Automation Testing-1",
+                                lab_name,
                                 "10:00AM",
-                                "05:30PM",
+                                "05:20PM",
+                                3,
                                 "surriyaa.pp@bridgelabz.com",
-                                "surriysanity2@bridgelabz.com",
+                                "surriyaa@gmail.com",
                                 "Fellowship")
         except Exception as e:
             take_screenshot(login, "test_create_lab_practice")
@@ -172,7 +174,7 @@ class TestLabPractice:
         practice.upload_lab_csv_file(file_path=file_path)
 
         # Verify success toast
-        toast_xpath = "//*[contains(text(),'successfully')]"
+        toast_xpath = "//*[contains(text(),'Upload complete')]"
         try:
             WebDriverWait(driver, 15).until(
                 EC.visibility_of_element_located((By.XPATH, toast_xpath))

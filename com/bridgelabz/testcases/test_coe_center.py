@@ -5,25 +5,26 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-from com.bridgelabz.pageObjects.COELabs.COELabs import COELabs
+from com.bridgelabz.pageObjects.COECenter.COECenter import COECenter
 from com.bridgelabz.testcases.conftest import take_screenshot
 
 @pytest.mark.usefixtures("login")
 class TestCOE:
     # Test Data
-    COE_NAME = "Automation COE-8"
-    COE_DETAILS = "Automation Testing-8"
+    COE_NAME = f"RandomCOE{int(time.time())}"
+    COE_DETAILS = "Automation Testing-9"
     LATITUDE = "19.135420"
     LONGITUDE = "72.54894"
-    DISTANCE = "500"
+    DISTANCE = "350"
     EDITED_DETAILS = "SRM TN Updated Automation 3"
 
     @pytest.mark.sanity
     def test_create_coe(self, login):
         driver = login
-        coe = COELabs(driver)
+        coe = COECenter(driver)
 
         try:
+            coe.click_coe_center_tab()
             coe.click_create_coe_button()
             coe.fill_create_coe_form(
                 self.COE_NAME,
@@ -43,9 +44,10 @@ class TestCOE:
     @pytest.mark.sanity
     def test_edit_coe(self, login):
         driver = login
-        coe = COELabs(driver)
+        coe = COECenter(driver)
 
         try:
+            coe.click_coe_center_tab()
             coe.click_edit_SRMTN_button()
             coe.edit_details(self.EDITED_DETAILS)
             coe.click_edit_button()
@@ -59,8 +61,8 @@ class TestCOE:
     @pytest.mark.regular
     def test_disable_coe(self, login):
         driver = login
-        coe = COELabs(driver)
-
+        coe = COECenter(driver)
+        coe.click_coe_center_tab()
         coe.click_disable_button()
 
         try:
@@ -76,7 +78,7 @@ class TestCOE:
     @pytest.mark.sanity
     def test_check_download_sample_csv(self, login):
         driver = login
-        coe = COELabs(driver)
+        coe = COECenter(driver)
 
         download_directory = os.path.expanduser("~/Downloads")
         expected_file_prefix = "SampleLearnerCSV"
@@ -89,8 +91,9 @@ class TestCOE:
                 os.remove(os.path.join(download_directory, file))
 
         # Perform UI actions
+        coe.click_coe_center_tab()
         coe.click_learner_button()
-        coe.click_download_learner_data_csv()
+        coe.click_download_sample_csv()
         time.sleep(2)
 
         # Verify toaster message
@@ -129,7 +132,7 @@ class TestCOE:
     @pytest.mark.sanity
     def test_check_download_learner_data_csv(self, login):
         driver = login
-        coe = COELabs(driver)
+        coe = COECenter(driver)
 
         download_directory = os.path.expanduser("~/Downloads")
         expected_file_prefix = "LearnersData"
@@ -142,6 +145,7 @@ class TestCOE:
                 os.remove(os.path.join(download_directory, file))
 
         # Perform UI actions
+        coe.click_coe_center_tab()
         coe.click_learner_button()
         coe.click_download_learner_data_csv()
         time.sleep(2)
@@ -182,13 +186,14 @@ class TestCOE:
     @pytest.mark.sanity
     def test_upload_csv_file(self, login):
         driver = login
-        coe = COELabs(driver)
+        coe = COECenter(driver)
 
         # Ensure file path is correct
         file_path = r"C:\Users\ASUS\Downloads\CSVFiles\SampleLearnerCSV.csv"  # <-- FIXED
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"CSV file not found at: {file_path}")
 
+        coe.click_coe_center_tab()
         coe.click_learner_button()
         coe.upload_csv_file(file_path=file_path)
 

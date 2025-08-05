@@ -1,3 +1,6 @@
+import time
+import random
+
 import pytest
 
 from com.bridgelabz.pageObjects.PracticeMentor.PracticeMentorPage import MentorPage
@@ -9,8 +12,10 @@ class TestPracticeMentor:
     def test_create_mentor(self, login):
         try:
             mentor = MentorPage(login)
-            mentor.create_practice_mentor("Surriyaa sanity5", "surriysanity5@bridgelabz.com", "6354670109",
-                                          "P&A Phase 2")
+            name = f"RandomMentor{int(time.time())}"
+            email = f"randomemail{int(time.time())}@bridgelabz.com"
+            mobile = f"{random.randint(6, 9)}{random.randint(100000000, 999999999)}"
+            mentor.create_practice_mentor(name, email, mobile, "P&A Phase 2")
         except Exception as e:
             take_screenshot(login, "test_create_mentor")
             raise e
@@ -19,7 +24,8 @@ class TestPracticeMentor:
     def test_edit_mentor(self, login):
         try:
             mentor = MentorPage(login)
-            mentor.edit_mentor_contact("9876555521")
+            mobile = f"{random.randint(6, 9)}{random.randint(100000000, 999999999)}"
+            mentor.edit_mentor_contact(mobile)
         except Exception as e:
             take_screenshot(login, "test_edit_mentor")
             raise e

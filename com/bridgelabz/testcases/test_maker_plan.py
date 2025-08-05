@@ -13,9 +13,9 @@ class TestMakerPlan:
             sleep(1)
             maker.click_maker_plan_tab()
             maker.click_add_maker_plan_button()
-            maker.enter_maker_plan_name("Full Stack Testing 7")
+            maker.enter_maker_plan_name("Full Stack Testing 8")
             maker.enter_duration("58")
-            maker.enter_description("This is An Automated Description 07")
+            maker.enter_description("This is An Automated Description 08")
             maker.click_submit_button()
         except Exception as e:
             take_screenshot(login, "test_create_maker_plan")

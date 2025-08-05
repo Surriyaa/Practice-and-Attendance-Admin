@@ -4,7 +4,7 @@ from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
+import time
 from com.bridgelabz.pageObjects.MakerModule.MakerModule import MakerModule
 from com.bridgelabz.testcases.conftest import take_screenshot
 from com.bridgelabz.utilities.data_loader import load_questions_from_excel
@@ -21,9 +21,9 @@ class TestMakerModule:
         maker.click_create_module()
 
         maker.select_module_dropdown(value=1)
-
+        topic = f"randomtopic{int(time.time())}"
         maker.fill_module_form(
-            topic="Loops and Condition from W3Schools",
+            topic=topic,
             notes="https://www.w3schools.com/java/java_while_loop.asp",
             level1="https://www.w3schools.com/java/java_while_loop_do.asp",
             level2="https://www.w3schools.com/java/java_for_loop.asp",
@@ -58,7 +58,8 @@ class TestMakerModule:
             actions = ActionChains(driver)
             actions.click(topic_field)
             actions.key_down(Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).send_keys(Keys.DELETE).perform()
-            topic_field.send_keys("Updated Topic New")
+            topic = f"Updated Random Topic {int(time.time())}"
+            topic_field.send_keys(topic)
 
             maker.click_submit()
             sleep(2)

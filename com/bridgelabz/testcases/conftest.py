@@ -13,7 +13,7 @@ from com.bridgelabz.utilities.logger import Logger
 
 logger = Logger.get_logger("conftest")
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def chrome_browser():
     logger.info("Initializing Chrome WebDriver with suppressed logs.")
 
@@ -42,7 +42,7 @@ def chrome_browser():
     driver.quit()
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def login(chrome_browser):
     driver = chrome_browser
     logger.info("Instantiating SignInPage object.")
@@ -98,3 +98,15 @@ def take_screenshot(driver, scenario_name):
     logger.info(f"Saving screenshot to {screenshot_path}.")
     driver.save_screenshot(screenshot_path)
     logger.info(f"Screenshot saved at {screenshot_path}")
+
+
+# Automatically redirect to home page after each test case
+@pytest.fixture(scope="function", autouse=True)
+def redirect_to_home_after_each_test(chrome_browser):
+    yield
+    try:
+        home_url = "https://bl-practice-attendance-app-stg-187791816934.asia-south1.run.app/admin/add-admin"
+        logger.info(f"Redirecting back to home page: {home_url}")
+        chrome_browser.get(home_url)
+    except Exception as e:
+        logger.warning(f"Failed to redirect to home page: {e}")

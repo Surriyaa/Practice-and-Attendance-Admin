@@ -11,7 +11,7 @@ class MakerModule:
         self.wait = WebDriverWait(driver, 10)
         self.driver = driver
         self.logger = logging.getLogger(self.__class__.__name__)
-        self.logger.setLevel(logging.DEBUG)
+        self.logger.setLevel(logging.INFO)
 
     # Locators
     maker_module_button_xpath = "//span[normalize-space()='Maker Module']"
@@ -34,93 +34,93 @@ class MakerModule:
 
     # Actions
     def click_maker_module(self):
-        self.logger.debug("Clicking Maker Module button.")
+        self.logger.info("Clicking Maker Module button.")
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, self.maker_module_button_xpath))
         ).click()
-        self.logger.debug("Clicked Maker Module button.")
+        self.logger.info("Clicked Maker Module button.")
 
     def click_create_module(self):
-        self.logger.debug("Clicking Create Module button.")
+        self.logger.info("Clicking Create Module button.")
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, self.create_module_button_xpath))
         ).click()
-        self.logger.debug("Clicked Create Module button.")
+        self.logger.info("Clicked Create Module button.")
 
     def select_module_dropdown(self, value):
-        self.logger.debug("Selecting module dropdown with value: %s", value)
+        self.logger.info("Selecting module dropdown with value: %s", value)
         WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, self.select_module_dropdown_xpath))
         )
         drop = Select(self.driver.find_element(By.XPATH, self.select_module_dropdown_xpath))
         drop.select_by_value(str(value))
-        self.logger.debug("Selected module dropdown with value: %s", value)
+        self.logger.info("Selected module dropdown with value: %s", value)
 
     def fill_module_form(self, topic, notes, level1, level2, level3):
-        self.logger.debug("Filling module form with the given details.")
+        self.logger.info("Filling module form with the given details.")
         self.driver.find_element(By.XPATH, self.topic_input_xpath).send_keys(topic)
         self.driver.find_element(By.XPATH, self.notes_input_xpath).send_keys(notes)
         self.driver.find_element(By.XPATH, self.level1_input_xpath).send_keys(level1)
         self.driver.find_element(By.XPATH, self.level2_input_xpath).send_keys(level2)
         self.driver.find_element(By.XPATH, self.level3_input_xpath).send_keys(level3)
-        self.logger.debug("Filled module form.")
+        self.logger.info("Filled module form.")
 
     def click_submit(self):
-        self.logger.debug("Clicking Submit button.")
+        self.logger.info("Clicking Submit button.")
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, self.submit_button_xpath))
         ).click()
-        self.logger.debug("Clicked Submit button.")
+        self.logger.info("Clicked Submit button.")
     def click_save(self):
-        self.logger.debug("Clicking Submit button.")
+        self.logger.info("Clicking Submit button.")
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, self.save_button_xpath))
         ).click()
-        self.logger.debug("Clicked Submit button.")
+        self.logger.info("Clicked Submit button.")
 
     def click_edit_module(self):
-        self.logger.debug("Clicking Edit Module icon.")
+        self.logger.info("Clicking Edit Module icon.")
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, self.edit_icon_xpath))
         ).click()
-        self.logger.debug("Clicked Edit Module icon.")
+        self.logger.info("Clicked Edit Module icon.")
 
     def click_disable_button(self):
-        self.logger.debug("Clicking Disable button.")
+        self.logger.info("Clicking Disable button.")
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, self.disable_button_xpath))
         ).click()
-        self.logger.debug("Clicked Disable button.")
+        self.logger.info("Clicked Disable button.")
 
     def add_question(self, level_xpath: str, question_text: str):
-        self.logger.debug("Adding question to level with xpath: %s", level_xpath)
+        self.logger.info("Adding question to level with xpath: %s", level_xpath)
         self.wait.until(EC.element_to_be_clickable((By.XPATH, self.maker_module_button_xpath))).click()
         self.wait.until(EC.element_to_be_clickable((By.XPATH, level_xpath))).click()
         self.wait.until(EC.element_to_be_clickable((By.XPATH, self.add_questions_button_xpath))).click()
         sleep(1)
 
-        self.logger.debug("Entering question text.")
+        self.logger.info("Entering question text.")
         input_field = self.wait.until(EC.presence_of_element_located((By.XPATH, self.input_frame_xpath)))
         input_field.click()
         input_field.send_keys(question_text)
-        self.logger.debug("Entered question text.")
+        self.logger.info("Entered question text.")
 
-        self.logger.debug("Submitting question.")
+        self.logger.info("Submitting question.")
         self.wait.until(EC.element_to_be_clickable((By.XPATH, self.submit_button_xpath))).click()
         sleep(1)
-        self.logger.debug("Submitted question.")
+        self.logger.info("Submitted question.")
 
     def add_level1_question(self, question: str):
-        self.logger.debug("Adding level 1 question.")
+        self.logger.info("Adding level 1 question.")
         self.add_question(self.level1_questions_add_xpath, question)
-        self.logger.debug("Added level 1 question.")
+        self.logger.info("Added level 1 question.")
 
     def add_level2_question(self, question: str):
-        self.logger.debug("Adding level 2 question.")
+        self.logger.info("Adding level 2 question.")
         self.add_question(self.level2_questions_add_xpath, question)
-        self.logger.debug("Added level 2 question.")
+        self.logger.info("Added level 2 question.")
 
     def add_level3_question(self, question: str):
-        self.logger.debug("Adding level 3 question.")
+        self.logger.info("Adding level 3 question.")
         self.add_question(self.level3_questions_add_xpath, question)
-        self.logger.debug("Added level 3 question.")
+        self.logger.info("Added level 3 question.")

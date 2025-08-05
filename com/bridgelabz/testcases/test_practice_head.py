@@ -8,7 +8,7 @@ from com.bridgelabz.utilities.logger import Logger
 
 @pytest.mark.usefixtures("login")
 class TestPracticeHead:
-    @pytest.mark.sanity
+    @pytest.mark.regular
     def test_create_practice_head(self, login):
         logger = Logger.get_logger(self.__class__.__name__)
         try:
@@ -28,7 +28,7 @@ class TestPracticeHead:
             take_screenshot(login, "test_create_ph")
             raise e
 
-    @pytest.mark.sanity
+    @pytest.mark.regular
     def test_edit_practice_head(self, login):
         logger = Logger.get_logger(self.__class__.__name__)
         try:

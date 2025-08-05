@@ -18,6 +18,7 @@ class MakerPlanPage:
     duration_input_xpath = "//input[@name='codingHours']"
     description_input_xpath= "//textarea[@name='description']"
     submit_button_xpath = "(//button[normalize-space()='Submit'])[1]"
+    save_button_xpath = "//button[normalize-space()='Save']"
     edit_icon_xpath = "//*[name()='path' and contains(@d,'M3 17.25V2')]"
     duration_edit_xpath = "//input[@name='codingHours']"
     disable_button_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/table[1]/tbody[1]/tr[1]/td[4]/button[2]"
@@ -91,4 +92,4 @@ class MakerPlanPage:
     def save_changes(self):
         self.logger.info("Clicking the Submit button to save changes.")
         wait = WebDriverWait(self.driver, 10)
-        wait.until(EC.element_to_be_clickable((By.XPATH, self.submit_button_xpath))).click()
+        wait.until(EC.element_to_be_clickable((By.XPATH, self.save_button_xpath))).click()
