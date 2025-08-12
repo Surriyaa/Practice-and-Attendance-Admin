@@ -5,15 +5,16 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 from com.bridgelabz.utilities.logger import Logger
+
 class LabPractice:
 
-    def __init__(self, driver):
+    def __init__(self, driver, tc_id=None):
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
-        self.logger = Logger.get_logger(self.__class__.__name__)
+        self.logger = Logger.get_logger(self.__class__.__name__, tc_id)
 
     lab_practice_tab_xpath = "//span[normalize-space()='Lab Practice']"
-    submit_csv_btn_xpath = "(//button[contains(text(),'🚀 Submit')])[1]"
+    submit_csv_btn_xpath = "(//button[contains(text(),' Submit')])[1]"
     create_lab_button_xpath = "(//button[normalize-space()='Create lab'])[1]"
     coe_dropdown_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[1]"
     coe_select_xpath = "//div[@id='mui-component-select-COE']"
@@ -23,8 +24,7 @@ class LabPractice:
     main_mentor_dropdown_xpath = "//div[@id='mui-component-select-mainMentor']"
     sub_mentor_dropdown_xpath = "//div[@id='mui-component-select-supportMentor']"
     lab_type_xpath = "(//input[@value='Fellowship'])[1]"
-    #newely added labname
-    edit_button_newbuild_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/div[2]/table[1]/tbody[1]/tr[1]/td[8]/button[1]"
+    edit_button_newbuild_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/div[2]/table[1]/tbody[1]/tr[5]/td[9]/button[1]"
     edit_button_xpath = "//button[normalize-space()='Edit']"
     click_create_xpath = "(//button[normalize-space()='Create'])[1]"
     update_button_xpath = "(//button[normalize-space()='Update'])[1]"
@@ -34,10 +34,11 @@ class LabPractice:
     disable_lab_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/div[2]/table[1]/tbody[1]/tr[1]/td[7]/button[2]"
     disable_confirm_xpath = "(//button[normalize-space()='Yes, Disable'])[1]"
     file_input_xpath = "//input[@type='file' and @accept='.csv']"
-    semester_input_xpath="/html[1]/body[1]/div[3]/div[3]/form[1]/div[1]/div[5]/div[1]/div[1]/input[1]"
+    enrollment_year_input_xpath = "//input[@name='enrolment_year']"
+    semester_input_xpath = "/html[1]/body[1]/div[3]/div[3]/form[1]/div[1]/div[5]/div[1]/div[1]/input[1]"
 
     def select_combobox_option(self, combobox_xpath, option_text):
-        self.logger.debug(f"Selecting option '{option_text}' from combobox.")
+        self.logger.info(f"Selecting option '{option_text}' from combobox.")
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, combobox_xpath))
         ).click()
@@ -57,10 +58,12 @@ class LabPractice:
 
     def click_create_lab_button(self):
         self.logger.info("Clicking 'Create lab' button.")
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, self.create_lab_button_xpath))).click()
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.create_lab_button_xpath))
+        ).click()
 
     def set_date_js(self, xpath, value):
-        self.logger.debug(f"Setting date '{value}' for input: {xpath}")
+        self.logger.info(f"Setting date '{value}' for input: {xpath}")
         element = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.XPATH, xpath))
         )
@@ -70,7 +73,7 @@ class LabPractice:
             arguments[0].dispatchEvent(new Event('change', { bubbles: true }));
         """, element)
 
-    def create_lab(self, coe, lab_name, start_time, end_time,semester, main_mentor, support_mentor, lab_type):
+    def create_lab(self, coe, lab_name, start_time, end_time, semester,enrollment_year, main_mentor, support_mentor, lab_type):
         self.logger.info(f"Creating lab: {lab_name}")
         self.select_combobox_option(self.coe_select_xpath, coe)
         self.driver.find_element(By.XPATH, self.lab_name_xpath).send_keys(lab_name)
@@ -79,6 +82,10 @@ class LabPractice:
         semester_input = self.driver.find_element(By.XPATH, self.semester_input_xpath)
         action = ActionChains(self.driver)
         action.click(semester_input).key_down(Keys.CONTROL).send_keys("a").key_up(Keys.CONTROL).send_keys(Keys.DELETE).send_keys(semester).perform()
+
+        enrollment_year_input = self.driver.find_element(By.XPATH, self.enrollment_year_input_xpath)
+        action = ActionChains(self.driver)
+        action.click(enrollment_year_input).send_keys(enrollment_year).perform()
         self.select_combobox_option(self.main_mentor_dropdown_xpath, main_mentor)
         self.select_combobox_option(self.sub_mentor_dropdown_xpath, support_mentor)
         self.driver.find_element(By.XPATH, self.lab_type_xpath).click()
@@ -90,7 +97,9 @@ class LabPractice:
 
     def click_edit_newbuild_button(self):
         self.logger.info("Clicking edit button for lab.")
-        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, self.edit_button_newbuild_xpath))).click()
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.edit_button_newbuild_xpath))
+        ).click()
 
     def delete_lab(self):
         self.logger.info("Deleting lab.")
@@ -100,7 +109,9 @@ class LabPractice:
 
     def click_download_sample_lab_csv(self):
         self.logger.info("Downloading sample lab CSV.")
-        download_button = self.wait.until(EC.element_to_be_clickable((By.XPATH, self.download_sample_csv_xpath)))
+        download_button = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.download_sample_csv_xpath))
+        )
         download_button.click()
 
     def edit_details(self, new_lab_name):
@@ -119,16 +130,24 @@ class LabPractice:
     def click_download_lab_data_csv(self):
         self.logger.info("Downloading lab data CSV.")
         sleep(3)
-        download_button = self.wait.until(EC.element_to_be_clickable((By.XPATH, self.download_lab_data_csv_xpath)))
+        download_button = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.download_lab_data_csv_xpath))
+        )
         download_button.click()
 
     def upload_lab_csv_file(self, file_path: str):
         self.logger.info(f"Uploading lab CSV from file: {file_path}")
-        upload_btn = self.wait.until(EC.element_to_be_clickable((By.XPATH, self.upload_csv_btn_xpath)))
+        upload_btn = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.upload_csv_btn_xpath))
+        )
         upload_btn.click()
-        file_input = self.wait.until(EC.presence_of_element_located((By.XPATH, self.file_input_xpath)))
+        file_input = self.wait.until(
+            EC.presence_of_element_located((By.XPATH, self.file_input_xpath))
+        )
         file_input.send_keys(file_path)
         sleep(2)
-        submit_btn = self.wait.until(EC.element_to_be_clickable((By.XPATH, self.submit_csv_btn_xpath)))
+        submit_btn = self.wait.until(
+            EC.element_to_be_clickable((By.XPATH, self.submit_csv_btn_xpath))
+        )
         submit_btn.click()
         self.logger.info("CSV file uploaded and submitted.")

@@ -16,7 +16,7 @@ def load_questions_from_excel(file_path):
         for row in worksheet.iter_rows(min_row=2, max_col=1, values_only=True):
             question = row[0]
             if question:
-                logger.debug(f"Found question in {sheet}: {question}")
+                logger.info(f"Found question in {sheet}: {question}")
                 questions.append(question)
         data[sheet.lower()] = questions  # e.g., "Level1" → "level1"
 

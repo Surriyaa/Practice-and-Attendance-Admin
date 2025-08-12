@@ -9,10 +9,10 @@ from com.bridgelabz.utilities.logger import Logger
 
 class COECenter:
 
-    def __init__(self, driver):
+    def __init__(self, driver, tc_id=None):
         self.driver = driver
         self.wait = WebDriverWait(driver, 10)
-        self.logger = Logger.get_logger(self.__class__.__name__)
+        self.logger = Logger.get_logger(self.__class__.__name__, tc_id)
 
     # XPaths and identifiers
     coe_center_tab_xpath = "//span[normalize-space()='COE Center']"
@@ -34,7 +34,7 @@ class COECenter:
     submit_csv_btn_xpath = "(//button[normalize-space()='Submit'])[1]"
     coe_next_page_button_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/div[1]/div[1]/div[3]/button[2]"
     coe_disable_button_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/table[1]/tbody[1]/tr[4]/td[6]/button[2]"
-    #the above xpath is for the disable button of the 'sample COE' COE
+    # the above xpath is for the disable button of the 'sample COE' COE
 
     def click_coe_center_tab(self):
         self.logger.info("Clicking COE Center tab.")
@@ -110,7 +110,7 @@ class COECenter:
         download_button.click()
         self.logger.info("Learner Data CSV downloaded.")
 
-    def upload_csv_file(self, file_path: str):
+    def upload_csv_file(self, file_path):
         self.logger.info(f"Uploading CSV file from path: {file_path}")
 
         upload_btn = self.wait.until(EC.element_to_be_clickable((By.XPATH, self.upload_csv_btn_xpath)))

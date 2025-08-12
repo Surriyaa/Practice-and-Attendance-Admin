@@ -22,9 +22,9 @@ class MentorPage:
     )
     disable_button_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/table[1]/tbody[1]/tr[7]/td[5]/button[2]"
 
-    def __init__(self, driver):
+    def __init__(self, driver, tc_id=None):
         self.driver = driver
-        self.logger = Logger.get_logger(self.__class__.__name__)
+        self.logger = Logger.get_logger(self.__class__.__name__, tc_id)
 
     def create_practice_mentor(self, name, email, mobile, base_coe_name):
         self.logger.info("Initializing wait for mentor creation.")
@@ -126,12 +126,12 @@ class MentorPage:
         )
 
     def disable_mentor(self):
-        self.logger.info("Initializing wait for mentor editing.")
+        self.logger.info("Initializing wait for mentor disable.")
         wait = WebDriverWait(self.driver, 10)
 
         self.logger.info("Waiting for mentor tab to be clickable.")
         wait.until(EC.element_to_be_clickable((By.XPATH, self.mentor_tab_xpath))).click()
-
+        self.logger.info("Clicking disable button.")
         wait.until(EC.element_to_be_clickable((By.XPATH, self.disable_button_xpath))).click()
 
         try:

@@ -1,17 +1,16 @@
 from time import sleep
-import logging
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from com.bridgelabz.utilities.logger import Logger
 
 class MakerModule:
 
-    def __init__(self, driver):
+    def __init__(self, driver, tc_id=None):
         self.wait = WebDriverWait(driver, 10)
         self.driver = driver
-        self.logger = logging.getLogger(self.__class__.__name__)
-        self.logger.setLevel(logging.INFO)
+        self.logger = Logger.get_logger(self.__class__.__name__, tc_id)
 
     # Locators
     maker_module_button_xpath = "//span[normalize-space()='Maker Module']"
@@ -30,7 +29,7 @@ class MakerModule:
     level2_questions_add_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/table[1]/tbody[1]/tr[3]/td[4]/span[1]"
     level3_questions_add_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/table[1]/tbody[1]/tr[3]/td[5]/span[1]"
     input_frame_xpath = "//div[@role='textbox']"
-    disable_button_xpath="/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/table[1]/tbody[1]/tr[6]/td[6]/button[2]"
+    disable_button_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/table[1]/tbody[1]/tr[6]/td[6]/button[2]"
 
     # Actions
     def click_maker_module(self):
@@ -71,12 +70,13 @@ class MakerModule:
             EC.element_to_be_clickable((By.XPATH, self.submit_button_xpath))
         ).click()
         self.logger.info("Clicked Submit button.")
+
     def click_save(self):
-        self.logger.info("Clicking Submit button.")
+        self.logger.info("Clicking Save button.")
         WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, self.save_button_xpath))
         ).click()
-        self.logger.info("Clicked Submit button.")
+        self.logger.info("Clicked Save button.")
 
     def click_edit_module(self):
         self.logger.info("Clicking Edit Module icon.")

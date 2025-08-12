@@ -11,18 +11,17 @@ from com.bridgelabz.pageObjects.LoginLogout.SignInPage import SignInPage
 from com.bridgelabz.utilities.read_config import ReadConfig
 from com.bridgelabz.utilities.logger import Logger
 
-logger = Logger.get_logger("conftest")
 
 @pytest.fixture(scope="session")
-def chrome_browser():
+def chrome_browser(request):
+    # Always pull TC_ID from test node if present
+    tc_id = getattr(request.node, "tc_id", "001")
+    logger = Logger.get_logger("ChromeBrowserFixture", tc_id)
+
     logger.info("Initializing Chrome WebDriver with suppressed logs.")
-
-    # Set Chrome options to suppress unnecessary logs
     options = Options()
-    options.add_argument("--log-level=3")  # Only fatal errors
-    options.add_experimental_option("excludeSwitches", ["enable-logging"])  # Remove DevTools ws log
-
-    # Initialize driver
+    options.add_argument("--log-level=3")
+    options.add_experimental_option("excludeSwitches", ["enable-logging"])
     driver = webdriver.Chrome(service=Service(), options=options)
 
     logger.info("Maximizing browser window.")
@@ -31,7 +30,6 @@ def chrome_browser():
     logger.info("Setting implicit wait to 10 seconds.")
     driver.implicitly_wait(10)
 
-    # Read URL from config
     url = ReadConfig.get_url()
     logger.info(f"Navigating to URL: {url}")
     driver.get(url)
@@ -43,7 +41,10 @@ def chrome_browser():
 
 
 @pytest.fixture(scope="session")
-def login(chrome_browser):
+def login(chrome_browser, request):
+    tc_id = getattr(request.node, "tc_id", "001")
+    logger = Logger.get_logger("LoginFixture", tc_id)
+
     driver = chrome_browser
     logger.info("Instantiating SignInPage object.")
     signin = SignInPage(driver)
@@ -53,6 +54,7 @@ def login(chrome_browser):
 
     logger.info("Waiting for Google login popup to appear.")
     WebDriverWait(driver, 15).until(lambda d: len(d.window_handles) > 1)
+
     logger.info("Switching to Google login popup window.")
     driver.switch_to.window(driver.window_handles[1])
 
@@ -68,6 +70,7 @@ def login(chrome_browser):
 
     logger.info("Waiting for application window to become available.")
     WebDriverWait(driver, 15).until(lambda d: len(d.window_handles) > 0)
+
     logger.info("Switching back to original application window.")
     driver.switch_to.window(driver.window_handles[0])
 
@@ -79,14 +82,16 @@ def login(chrome_browser):
         ))
         driver.execute_script("arguments[0].style.display='none';", overlay)
         logger.info("Overlay popup closed after login.")
-    except Exception as e:
+    except Exception:
         logger.info("No overlay popup found after login, proceeding.")
 
     return driver
 
 
-def take_screenshot(driver, scenario_name):
+def take_screenshot(driver, scenario_name, tc_id="001"):
+    logger = Logger.get_logger("Screenshot", tc_id)
     logger.info("Preparing to take screenshot.")
+
     screenshot_dir = "/Practice-Attendance-Admin/ScreenShots"
     logger.info(f"Ensuring screenshot directory exists at {screenshot_dir}.")
     os.makedirs(screenshot_dir, exist_ok=True)
@@ -100,13 +105,15 @@ def take_screenshot(driver, scenario_name):
     logger.info(f"Screenshot saved at {screenshot_path}")
 
 
-# Automatically redirect to home page after each test case
 @pytest.fixture(scope="function", autouse=True)
-def redirect_to_home_after_each_test(chrome_browser):
+def redirect_to_home_after_each_test(chrome_browser, request):
     yield
+    logger = Logger.get_logger("Screenshot", "001")
+    tc_id = getattr(request.node, "tc_id", "001")
     try:
         home_url = "https://bl-practice-attendance-app-stg-187791816934.asia-south1.run.app/admin/add-admin"
-        logger.info(f"Redirecting back to home page: {home_url}")
         chrome_browser.get(home_url)
+        logger.info(f"Redirecting back to home page: {home_url}")
+
     except Exception as e:
         logger.warning(f"Failed to redirect to home page: {e}")

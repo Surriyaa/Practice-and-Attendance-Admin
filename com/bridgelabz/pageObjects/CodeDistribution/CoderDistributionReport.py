@@ -5,9 +5,9 @@ from time import sleep
 from com.bridgelabz.utilities.logger import Logger  # Logging utility
 
 class CoderDistributionReport:
-    def __init__(self, driver):
+    def __init__(self, driver, tc_id=None):
         self.driver = driver
-        self.logger = Logger.get_logger(self.__class__.__name__)
+        self.logger = Logger.get_logger(self.__class__.__name__, tc_id)
 
         # XPaths for dropdowns and button
         self.tab_xpath = "//span[normalize-space()='Coder Distribution']"

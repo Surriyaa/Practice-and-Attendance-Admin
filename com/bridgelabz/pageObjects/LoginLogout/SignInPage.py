@@ -15,31 +15,26 @@ class SignInPage:
     profile_icon_xpath = "//button[@class='MuiButtonBase-root MuiIconButton-root MuiIconButton-colorInherit MuiIconButton-edgeEnd MuiIconButton-sizeLarge css-1gj9yt8']"
     signout_button_xpath = "//p[normalize-space()='Sign Out']"
 
-    def __init__(self, driver):
+    def __init__(self, driver, tc_id=None):
         self.driver = driver
-        self.logger = Logger.get_logger(self.__class__.__name__)
+        self.logger = Logger.get_logger(self.__class__.__name__, tc_id)
 
     def open_page(self, url):
         """Open the given URL."""
-        self.logger.info(f"Opening URL")
         self.driver.get(url)
 
     def handle_wait(self, driver=None):
         """Wait for Google sign-in button and click."""
         if driver is None:
             driver = self.driver
-
-        self.logger.info("Waiting for Google sign-in button.")
         wait = WebDriverWait(driver, 15)
         sign_in_button = wait.until(
             EC.presence_of_element_located((By.XPATH, self.sign_login_xpath))
         )
-        self.logger.info("Clicking on 'Sign in with Google' button.")
         sign_in_button.click()
 
     def enter_email(self, email):
         """Enter email in Google sign-in popup."""
-        self.logger.info(f"Entering email as username")
         email_input = WebDriverWait(self.driver, 15).until(
             EC.element_to_be_clickable((By.XPATH, self.email_xpath))
         )
@@ -48,7 +43,6 @@ class SignInPage:
 
     def enter_password(self, password):
         """Enter password in Google sign-in popup."""
-        self.logger.info("Entering password.")
         wait = WebDriverWait(self.driver, 15)
         password_input = wait.until(
             EC.element_to_be_clickable((By.XPATH, self.password_name))
@@ -58,7 +52,6 @@ class SignInPage:
 
     def click_Next(self):
         """Click the Next button in Google login flow."""
-        self.logger.info("Clicking on 'Next' button.")
         WebDriverWait(self.driver, 15).until(
             EC.element_to_be_clickable((By.XPATH, self.next_button_xpath))
         ).click()

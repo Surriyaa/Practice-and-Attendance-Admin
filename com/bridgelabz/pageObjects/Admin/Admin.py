@@ -1,4 +1,3 @@
-# pages/admin_page.py
 from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -7,10 +6,11 @@ from selenium.common.exceptions import TimeoutException
 import time
 
 from com.bridgelabz.utilities.logger import Logger
+
 class AdminPage:
-    def __init__(self, driver):
+    def __init__(self, driver, tc_id=None):
         self.driver = driver
-        self.logger = Logger.get_logger(self.__class__.__name__)
+        self.logger = Logger.get_logger(self.__class__.__name__, tc_id)
 
         # XPaths
         self.admin_tab_xpath = "//span[text()='Admin']"
@@ -23,9 +23,7 @@ class AdminPage:
         self.cancel_button_xpath = "(//button[normalize-space()='Cancel'])[1]"
         self.update_button_xpath = "(//button[normalize-space()='Update'])[1]"
         self.toast_msg_xpath = "//*[contains(text(),'successfully')]"
-
         self.edit_icon_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/table[1]/tbody[1]/tr[9]/td[5]/button[1]"
-
 
     def navigate_to_admin_tab(self):
         self.logger.info("Navigating to Admin tab")
@@ -46,7 +44,6 @@ class AdminPage:
         wait = WebDriverWait(self.driver, 10)
         wait.until(EC.element_to_be_clickable((By.XPATH, option_xpath))).click()
         self.logger.info("Clearing and entering email and mobile")
-        self.logger.info("Clearing and entering email and mobile")
         action = ActionChains(self.driver)
         action.click(self.driver.find_element(By.XPATH, self.email_input_xpath))
         action.key_down(Keys.CONTROL).send_keys('a').key_up(Keys.CONTROL).send_keys(Keys.DELETE).perform()
@@ -64,16 +61,6 @@ class AdminPage:
     def click_cancel(self):
         self.logger.info("Clicking on Cancel button")
         self.driver.find_element(By.XPATH, self.cancel_button_xpath).click()
-
-    def get_toast_message(self):
-        try:
-            self.logger.info("Getting toast message")
-            toast = WebDriverWait(self.driver, 5).until(
-                EC.visibility_of_element_located((By.XPATH, self.toast_msg_xpath)))
-            self.logger.info("Toast message found")
-            return toast.text
-        except TimeoutException:
-            return ""
 
     def click_edit_admin(self):
         self.logger.info("Clicking on Edit Admin button")

@@ -6,10 +6,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from com.bridgelabz.utilities.logger import Logger
 
 class CheckInOutReport:
-    def __init__(self, driver):
+    def __init__(self, driver, tc_id=None):
         self.driver = driver
         self.wait = WebDriverWait(self.driver, 10)
-        self.logger = Logger.get_logger(self.__class__.__name__)
+        self.logger = Logger.get_logger(self.__class__.__name__, tc_id)
 
         # XPaths
         self.checkinout_tab_xpath = "//span[normalize-space()='CheckIn-Out Report']"

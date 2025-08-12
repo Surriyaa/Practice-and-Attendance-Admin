@@ -8,9 +8,9 @@ from com.bridgelabz.utilities.logger import Logger  # Adjust the import as neede
 
 class MakerPlanPage:
 
-    def __init__(self, driver):
+    def __init__(self, driver, tc_id=None):
         self.driver = driver
-        self.logger = Logger.get_logger(self.__class__.__name__)
+        self.logger = Logger.get_logger(self.__class__.__name__, tc_id)
 
     maker_plan_tab_xpath = "//span[normalize-space()='Maker Plan']"
     add_maker_plan_button_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[1]/div[1]/button[1]/*[name()='svg'][1]"
@@ -22,7 +22,6 @@ class MakerPlanPage:
     edit_icon_xpath = "//*[name()='path' and contains(@d,'M3 17.25V2')]"
     duration_edit_xpath = "//input[@name='codingHours']"
     disable_button_xpath = "/html[1]/body[1]/div[1]/div[1]/div[2]/main[1]/div[1]/div[2]/div[1]/table[1]/tbody[1]/tr[1]/td[4]/button[2]"
-    #this is Fullstack 1 and its 1st module disable button
     maker_plan_dropdown_xpath = "(//div[@id='maker-plan-select'])"
 
     def click_maker_plan_tab(self):

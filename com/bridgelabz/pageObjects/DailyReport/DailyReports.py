@@ -9,9 +9,9 @@ from com.bridgelabz.utilities.logger import Logger
 
 
 class DailyReports:
-    def __init__(self, driver):
+    def __init__(self, driver, tc_id=None):
         self.driver = driver
-        self.logger = Logger.get_logger(self.__class__.__name__)
+        self.logger = Logger.get_logger(self.__class__.__name__, tc_id)
 
     daily_reports_tab_xpath = "//span[normalize-space()='Daily Report']"
 
@@ -81,7 +81,6 @@ class DailyReports:
         self.logger.info("Clicked on View Daily Attendance Report button")
 
         self.select_combobox_option(self.coe_dropdown_xpath, coe)
-
         self.select_combobox_option(self.lab_type_dropdown_xpath, lab_type)
 
         input_xpath = self.attendance_name_dropdown_xpath

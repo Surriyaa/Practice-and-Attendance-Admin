@@ -7,9 +7,9 @@ from com.bridgelabz.utilities.logger import Logger  # Import the logger
 class LabReports:
     lab_report_tab_xpath = "//span[normalize-space()='Lab Report']"
 
-    def __init__(self, driver):
+    def __init__(self, driver, tc_id=None):
         self.driver = driver
-        self.logger = Logger.get_logger(self.__class__.__name__)  # Logger initialized
+        self.logger = Logger.get_logger(self.__class__.__name__, tc_id)  # Logger initialized
 
     def select_combobox_option(self, combobox_xpath, option_text):
         self.logger.info(f"Selecting option '{option_text}' from combobox: {combobox_xpath}")
