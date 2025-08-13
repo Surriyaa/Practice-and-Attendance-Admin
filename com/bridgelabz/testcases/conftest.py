@@ -15,7 +15,7 @@ from com.bridgelabz.utilities.logger import Logger
 @pytest.fixture(scope="session")
 def chrome_browser(request):
     # Always pull TC_ID from test node if present
-    tc_id = getattr(request.node, "tc_id", "001")
+    tc_id = getattr(request.node, "tc_id", "TC_01")
     logger = Logger.get_logger("ChromeBrowserFixture", tc_id)
 
     logger.info("Initializing Chrome WebDriver with suppressed logs.")
@@ -42,7 +42,7 @@ def chrome_browser(request):
 
 @pytest.fixture(scope="session")
 def login(chrome_browser, request):
-    tc_id = getattr(request.node, "tc_id", "001")
+    tc_id = getattr(request.node, "tc_id", "TC_01")
     logger = Logger.get_logger("LoginFixture", tc_id)
 
     driver = chrome_browser
@@ -88,7 +88,7 @@ def login(chrome_browser, request):
     return driver
 
 
-def take_screenshot(driver, scenario_name, tc_id="001"):
+def take_screenshot(driver, scenario_name, tc_id="TC_01"):
     logger = Logger.get_logger("Screenshot", tc_id)
     logger.info("Preparing to take screenshot.")
 
@@ -108,8 +108,8 @@ def take_screenshot(driver, scenario_name, tc_id="001"):
 @pytest.fixture(scope="function", autouse=True)
 def redirect_to_home_after_each_test(chrome_browser, request):
     yield
-    logger = Logger.get_logger("Screenshot", "001")
-    tc_id = getattr(request.node, "tc_id", "001")
+    logger = Logger.get_logger("Screenshot", "TC_01")
+    tc_id = getattr(request.node, "tc_id", "TC_01")
     try:
         home_url = "https://bl-practice-attendance-app-stg-187791816934.asia-south1.run.app/admin/add-admin"
         chrome_browser.get(home_url)

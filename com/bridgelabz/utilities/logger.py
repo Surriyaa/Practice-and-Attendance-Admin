@@ -37,4 +37,4 @@ class Logger:
             logger.addHandler(fh)
             logger.addHandler(ch)
 
-        return logging.LoggerAdapter(logger, {'tc_id': tc_id if tc_id else 'No-TCID'})
+        return logging.LoggerAdapter(logger, {'tc_id': tc_id if tc_id else 'TC_01'})
